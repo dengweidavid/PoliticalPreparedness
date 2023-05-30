@@ -1,30 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="empty">0dp</dimen>
-    <dimen name="default_padding">@dimen/padding_default</dimen>
-    <dimen name="default_spacing">@dimen/margin_default</dimen>
-
-    <!-- FONTS SIZE -->
-    <dimen name="text_size_micro">10sp</dimen>
-    <dimen name="text_size_smaller">12sp</dimen>
-    <dimen name="text_size_small">14sp</dimen>
-    <dimen name="text_size_default">16sp</dimen>
-    <dimen name="text_size_medium">18sp</dimen>
-    <dimen name="text_size_large">22sp</dimen>
-    <dimen name="text_size_big">28sp</dimen>
-
-    <!--PADDING SIZE-->
-    <dimen name="padding_small">6dp</dimen>
-    <dimen name="padding_default">8dp</dimen>
-    <dimen name="padding_medium">12dp</dimen>
-    <dimen name="padding_large">16dp</dimen>
-    <dimen name="padding_big">24dp</dimen>
-
-    <!--MARGINS-->
-    <dimen name="margin_small">8dp</dimen>
-    <dimen name="margin_default">16dp</dimen>
-    <dimen name="margin_medium">24dp</dimen>
-    <dimen name="margin_large">48dp</dimen>
-    <dimen name="margin_big">64dp</dimen>
-
+    <dimen name="default_margin">16dp</dimen>
+    <dimen name="small_margin">8dp</dimen>
+    <dimen name="default_padding">8dp</dimen>
 </resources>
