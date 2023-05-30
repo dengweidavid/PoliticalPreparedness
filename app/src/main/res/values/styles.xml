@@ -9,18 +9,28 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="Match">
+    <style name="MatchWrap">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="MatchWrap" parent="Match">
-        <item name="android:layout_height">wrap_content</item>
+    <style name="MatchEmpty">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/empty</item>
     </style>
 
     <style name="Button" parent="MatchWrap">
         <item name="android:background">@color/colorPrimaryDark</item>
         <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="ElectionsTitle" parent="MatchWrap">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Large</item>
+    </style>
+
+    <style name="ElectionTitle" parent="MatchWrap">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
 </resources>

@@ -1,5 +1,7 @@
 package com.example.android.politicalpreparedness.network
 
+import com.example.android.politicalpreparedness.network.jsonadapter.DateAdapter
+import com.example.android.politicalpreparedness.network.jsonadapter.ElectionAdapter
 import com.example.android.politicalpreparedness.network.models.ElectionResponse
 import com.example.android.politicalpreparedness.network.models.RepresentativeResponse
 import com.example.android.politicalpreparedness.network.models.VoterInfoResponse
@@ -16,6 +18,8 @@ private const val BASE_URL = "https://www.googleapis.com/civicinfo/v2/"
 
 // TODO: Add adapters for Java Date and custom adapter ElectionAdapter (included in project)
 private val moshi = Moshi.Builder()
+        .add(DateAdapter())
+        .add(ElectionAdapter())
         .add(KotlinJsonAdapterFactory())
         .build()
 
@@ -31,15 +35,12 @@ private val retrofit = Retrofit.Builder()
  */
 
 interface CivicsApiService {
-    //TODO: Add elections API Call
     @GET("elections")
     fun getElectionListAsync(): Deferred<ElectionResponse>
 
-    //TODO: Add voterinfo API Call
     @GET("voterinfo")
     fun getVoterInfoAsync(@Query("address") address: String, @Query("electionId") electionId: Int): Deferred<VoterInfoResponse>
 
-    //TODO: Add representatives API Call
     @GET("representatives")
     fun getRepresentativesAsync(@Query("address") address: String): Deferred<RepresentativeResponse>
 }
@@ -49,3 +50,5 @@ object CivicsApi {
         retrofit.create(CivicsApiService::class.java)
     }
 }
+
+enum class CivicsApiStatus { LOADING, ERROR, DONE }

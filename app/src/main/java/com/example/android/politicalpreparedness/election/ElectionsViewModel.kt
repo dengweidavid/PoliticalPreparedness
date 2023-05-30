@@ -1,18 +1,45 @@
 package com.example.android.politicalpreparedness.election
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.android.politicalpreparedness.database.ElectionDao
 import com.example.android.politicalpreparedness.network.CivicsApiService
+import com.example.android.politicalpreparedness.network.CivicsApiStatus
+import com.example.android.politicalpreparedness.network.models.Election
+import kotlinx.coroutines.launch
 
-//TODO: Construct ViewModel and provide election datasource
 class ElectionsViewModel(private val database: ElectionDao, private val apiService: CivicsApiService): ViewModel() {
 
-    //TODO: Create live data val for upcoming elections
+    private val _apiStatus = MutableLiveData<CivicsApiStatus>()
+    val apiStatus: LiveData<CivicsApiStatus>
+        get() = _apiStatus
 
-    //TODO: Create live data val for saved elections
+    private val _upComingElections = MutableLiveData<List<Election>>()
+    val upcomingElections: LiveData<List<Election>>
+        get() = _upComingElections
 
-    //TODO: Create val and functions to populate live data for upcoming elections from the API and saved elections from local database
+    private val _savedElections = MutableLiveData<List<Election>>()
+    val savedElections: LiveData<List<Election>>
+        get() = _savedElections
 
-    //TODO: Create functions to navigate to saved or upcoming election voter info
+    fun getUpcomingElectionsFromCivics() {
+        _apiStatus.value = CivicsApiStatus.LOADING
+        viewModelScope.launch {
+            val response = apiService.getElectionListAsync()
+            try {
+                val result = response.await()
+                Log.d("network debug", result.toString())
+                _apiStatus.value = CivicsApiStatus.DONE
+                _upComingElections.value = result.elections
+            } catch (e: Exception) {
+                Log.e("network error", e.localizedMessage)
+                _apiStatus.value = CivicsApiStatus.ERROR
+                _upComingElections.value = ArrayList()
+            }
+        }
+    }
 
 }

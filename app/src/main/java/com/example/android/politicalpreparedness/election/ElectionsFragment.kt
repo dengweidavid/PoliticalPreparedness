@@ -5,30 +5,55 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.android.politicalpreparedness.databinding.FragmentElectionBinding
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
+import com.example.android.politicalpreparedness.database.ElectionDatabase
+import com.example.android.politicalpreparedness.databinding.FragmentElectionsBinding
+import com.example.android.politicalpreparedness.election.adapter.ElectionListAdapter
+import com.example.android.politicalpreparedness.election.adapter.ElectionListener
+import com.example.android.politicalpreparedness.network.CivicsApi
+import com.example.android.politicalpreparedness.network.models.Election
 
 class ElectionsFragment: Fragment() {
 
-    //TODO: Declare ViewModel
+    private val viewModel by viewModels<ElectionsViewModel> {
+        ElectionsViewModelFactory(ElectionDatabase.getInstance(requireContext()).electionDao, CivicsApi.retrofitService)
+    }
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        //TODO: Add ViewModel values and create ViewModel
+        val binding = FragmentElectionsBinding.inflate(inflater)
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
 
-        //TODO: Add binding values
-        val binding = FragmentElectionBinding.inflate(inflater)
+        val upcomingElectionAdapter = ElectionListAdapter(ElectionListener { navigateToVoterInfoFragment(it) })
+        val savedElectionAdapter = ElectionListAdapter(ElectionListener { navigateToVoterInfoFragment(it) })
 
-        //TODO: Link elections to voter info
+        binding.recyclerUpcomingElections.adapter = upcomingElectionAdapter
+        binding.recyclerSavedElections.adapter = savedElectionAdapter
 
-        //TODO: Initiate recycler adapters
+        viewModel.upcomingElections.observe(viewLifecycleOwner) {
+            upcomingElectionAdapter.submitList(it)
+        }
 
-        //TODO: Populate recycler adapters
+        viewModel.savedElections.observe(viewLifecycleOwner) {
+            savedElectionAdapter.submitList(it)
+        }
 
         return binding.root
     }
 
-    //TODO: Refresh adapters when fragment loads
+    override fun onResume() {
+        super.onResume()
+        viewModel.getUpcomingElectionsFromCivics()
+    }
+
+    private fun navigateToVoterInfoFragment(election: Election) {
+        this.findNavController().navigate(ElectionsFragmentDirections.actionElectionsFragmentToVoterInfoFragment(election.id, election.division))
+    }
 
 }
