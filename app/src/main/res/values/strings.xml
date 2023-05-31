@@ -6,5 +6,11 @@
     <string name="saved_elections">Saved Elections</string>
     <string name="find_my_representatives">find my representatives</string>
     <string name="image_description_ballot_logo">A image of ballot logo</string>
+    <string name="election_information">Election Information</string>
+    <string name="voting_locations">Voting Locations</string>
+    <string name="ballot_information">Ballot Information</string>
+    <string name="corresponding_address">Corresponding address</string>
+    <string name="follow_election">Follow Election</string>
+    <string name="unfollow_election">Unfollow Election</string>
 
 </resources>

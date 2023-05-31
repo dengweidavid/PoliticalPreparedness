@@ -50,10 +50,11 @@ class ElectionsFragment: Fragment() {
     override fun onResume() {
         super.onResume()
         viewModel.getUpcomingElectionsFromCivics()
+        viewModel.getSavedElectionsFromDatabase()
     }
 
     private fun navigateToVoterInfoFragment(election: Election) {
-        this.findNavController().navigate(ElectionsFragmentDirections.actionElectionsFragmentToVoterInfoFragment(election.id, election.division))
+        this.findNavController().navigate(ElectionsFragmentDirections.actionElectionsFragmentToVoterInfoFragment(election))
     }
 
 }

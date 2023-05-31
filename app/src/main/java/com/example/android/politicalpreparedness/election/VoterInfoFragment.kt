@@ -1,35 +1,49 @@
 package com.example.android.politicalpreparedness.election
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import com.example.android.politicalpreparedness.database.ElectionDatabase
 import com.example.android.politicalpreparedness.databinding.FragmentVoterInfoBinding
+import com.example.android.politicalpreparedness.network.CivicsApi
 
 class VoterInfoFragment : Fragment() {
+
+    private val viewModel by viewModels<VoterInfoViewModel> {
+        VoterInfoViewModelFactory(ElectionDatabase.getInstance(requireContext()).electionDao, CivicsApi.retrofitService)
+    }
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        //TODO: Add ViewModel values and create ViewModel
-
-        //TODO: Add binding values
         val binding = FragmentVoterInfoBinding.inflate(layoutInflater)
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
 
-        //TODO: Populate voter info -- hide views without provided data.
-        /**
-        Hint: You will need to ensure proper data is provided from previous fragment.
-        */
+        val args = VoterInfoFragmentArgs.fromBundle(requireArguments())
+        viewModel.checkElectionIsSaved(args.argElection)
+        viewModel.getVoterInformation(args.argElection)
 
+        viewModel.url.observe(viewLifecycleOwner, Observer { it ->
+            it?.let {
+                startUrlIntent(it)
+                viewModel.intentUrlCompleted()
+            }
+        })
 
-        //TODO: Handle loading of URLs
-
-        //TODO: Handle save button UI state
-        //TODO: cont'd Handle save button clicks
+        binding.buttonSave.setOnClickListener { viewModel.saveElection() }
 
         return binding.root
     }
 
-    //TODO: Create method to load URL intents
+    private fun startUrlIntent(url: String) {
+        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        startActivity(browserIntent)
+    }
 
 }

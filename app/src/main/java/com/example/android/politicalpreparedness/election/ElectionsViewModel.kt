@@ -31,7 +31,7 @@ class ElectionsViewModel(private val database: ElectionDao, private val apiServi
             val response = apiService.getElectionListAsync()
             try {
                 val result = response.await()
-                Log.d("network debug", result.toString())
+                Log.d("network debug - upcoming elections", result.toString())
                 _apiStatus.value = CivicsApiStatus.DONE
                 _upComingElections.value = result.elections
             } catch (e: Exception) {
@@ -39,6 +39,12 @@ class ElectionsViewModel(private val database: ElectionDao, private val apiServi
                 _apiStatus.value = CivicsApiStatus.ERROR
                 _upComingElections.value = ArrayList()
             }
+        }
+    }
+
+    fun getSavedElectionsFromDatabase() {
+        viewModelScope.launch {
+            _savedElections.value = database.getAllElections()
         }
     }
 
