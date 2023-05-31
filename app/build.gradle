@@ -10,12 +10,17 @@ android {
     buildFeatures {
         dataBinding true
     }
+
+    def properties = new Properties()
+    properties.load(project.rootProject.file("local.properties").newDataInputStream())
+
     defaultConfig {
         applicationId 'com.example.android.politicalpreparedness'
         minSdkVersion 26
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
+        buildConfigField("String", "API_KEY", "\"${properties.getProperty("api_key")}\"")
     }
     buildTypes {
         release {
