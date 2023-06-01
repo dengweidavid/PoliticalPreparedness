@@ -93,7 +93,3 @@ class RepresentativeDiffCallback : DiffUtil.ItemCallback<Representative>() {
         return oldItem == newItem
     }
 }
-
-class RepresentativeListener(val clickListener: (representative: Representative) -> Unit) {
-    fun onClick(representative: Representative) = clickListener(representative)
-}

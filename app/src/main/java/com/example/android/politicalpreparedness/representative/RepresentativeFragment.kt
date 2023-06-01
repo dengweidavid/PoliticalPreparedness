@@ -35,15 +35,13 @@ class RepresentativeFragment : Fragment() {
         ViewModelProvider(this).get(RepresentativeViewModel::class.java)
     }
 
-    lateinit var binding: FragmentRepresentativeBinding
-
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
 
-        binding = FragmentRepresentativeBinding.inflate(layoutInflater)
+        val binding = FragmentRepresentativeBinding.inflate(layoutInflater)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
@@ -55,11 +53,6 @@ class RepresentativeFragment : Fragment() {
 
         binding.buttonSearch.setOnClickListener {
             hideKeyboard()
-//            val address1 = binding.addressLine1.text
-//            val address2 = binding.addressLine2.text
-//            val state = binding.state.getItemAtPosition(binding.state.selectedItemPosition)
-//            val city = binding.city.text
-//            val zip = binding.zip.text
             viewModel.getRepresentativesByAddress()
         }
 
@@ -67,6 +60,7 @@ class RepresentativeFragment : Fragment() {
             hideKeyboard()
             if (checkLocationPermissions()) {
                 getLocation()
+                viewModel.getRepresentativesByAddress()
             }
         }
 

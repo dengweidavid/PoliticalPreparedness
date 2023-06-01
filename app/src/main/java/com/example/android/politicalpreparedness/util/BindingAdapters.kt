@@ -64,3 +64,4 @@ fun View.fadeOut() {
         }
     })
 }
+
