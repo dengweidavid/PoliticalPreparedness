@@ -27,8 +27,11 @@ class RepresentativeViewModel: ViewModel() {
     val address: LiveData<Address>
         get() = _address
 
+    init {
+        _address.value = Address("", null, "", "", "" )
+    }
+
     fun getRepresentativesByAddress() {
-        Log.d("network debug - address", _address.value.toString())
         if (_address.value != null) {
             _apiStatus.value = CivicsApiStatus.LOADING
             viewModelScope.launch {

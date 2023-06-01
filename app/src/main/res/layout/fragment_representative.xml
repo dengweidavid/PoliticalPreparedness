@@ -23,7 +23,7 @@
             <TextView
                 android:id="@+id/search_title"
                 style="@style/RepresentativeTitle"
-                android:text="@string/search_title"
+                android:text="@string/representative_search"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

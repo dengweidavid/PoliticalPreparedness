@@ -35,11 +35,15 @@ class RepresentativeFragment : Fragment() {
         ViewModelProvider(this).get(RepresentativeViewModel::class.java)
     }
 
+    lateinit var binding: FragmentRepresentativeBinding
+
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
 
-        val binding = FragmentRepresentativeBinding.inflate(layoutInflater)
+        binding = FragmentRepresentativeBinding.inflate(layoutInflater)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
@@ -51,8 +55,12 @@ class RepresentativeFragment : Fragment() {
 
         binding.buttonSearch.setOnClickListener {
             hideKeyboard()
+//            val address1 = binding.addressLine1.text
+//            val address2 = binding.addressLine2.text
+//            val state = binding.state.getItemAtPosition(binding.state.selectedItemPosition)
+//            val city = binding.city.text
+//            val zip = binding.zip.text
             viewModel.getRepresentativesByAddress()
-            //binding.invalidateAll()
         }
 
         binding.buttonLocation.setOnClickListener {
@@ -62,6 +70,9 @@ class RepresentativeFragment : Fragment() {
             }
         }
 
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity as Activity)
+
+        binding.executePendingBindings()
         return binding.root
     }
 
@@ -93,8 +104,6 @@ class RepresentativeFragment : Fragment() {
 
     @SuppressLint("MissingPermission")
     private fun getLocation() {
-        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity as Activity)
-
         fusedLocationClient.lastLocation.addOnSuccessListener { location ->
             try {
                 val address = geoCodeLocation(location)
