@@ -40,7 +40,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textUpcomingElections"/>
 
         <ImageView
-            android:id="@+id/imageUpcomingElectionsStatus"
+            android:id="@+id/iconLoadStatus"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:contentDescription="@string/showing_loading_status"
@@ -66,6 +66,18 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textSavedElections" />
+
+        <TextView
+            android:id="@+id/textNoData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/search_result_no_data"
+            android:textAlignment="center"
+            app:fadeVisible="@{viewModel.savedElections.empty}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textSavedElections" />
 
