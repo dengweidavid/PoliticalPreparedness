@@ -19,19 +19,18 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ballot_logo" />
 
-
         <Button
             android:id="@+id/buttonElections"
             style="@style/Button"
             android:layout_marginHorizontal="@dimen/default_margin"
             android:layout_marginBottom="@dimen/default_margin"
             android:text="@string/upcoming_elections"
-            app:layout_constraintBottom_toTopOf="@id/buttonRrepresentative"
+            app:layout_constraintBottom_toTopOf="@id/buttonRepresentative"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/buttonRrepresentative"
+            android:id="@+id/buttonRepresentative"
             style="@style/Button"
             android:layout_marginHorizontal="@dimen/default_margin"
             android:layout_marginBottom="@dimen/default_margin"
