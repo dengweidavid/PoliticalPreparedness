@@ -14,12 +14,13 @@ import com.example.android.politicalpreparedness.network.CivicsApi
 class VoterInfoFragment : Fragment() {
 
     private val viewModel by viewModels<VoterInfoViewModel> {
-        VoterInfoViewModelFactory(ElectionDatabase.getInstance(requireContext()).electionDao, CivicsApi.retrofitService)
+        VoterInfoViewModelFactory(ElectionDatabase.getInstance(requireContext()).electionDao,
+            CivicsApi.retrofitService)
     }
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
 
         val binding = FragmentVoterInfoBinding.inflate(layoutInflater)
         binding.lifecycleOwner = viewLifecycleOwner
@@ -36,7 +37,7 @@ class VoterInfoFragment : Fragment() {
             }
         })
 
-        binding.buttonSave.setOnClickListener { viewModel.saveElection() }
+        binding.buttonSave.setOnClickListener { viewModel.saveOrDeleteElection() }
 
         return binding.root
     }

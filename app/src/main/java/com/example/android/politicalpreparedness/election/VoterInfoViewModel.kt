@@ -34,6 +34,10 @@ class VoterInfoViewModel(private val dataSource: ElectionDao, private val apiSer
     val url: LiveData<String>
         get() = _url
 
+    init {
+        _url.value = null
+    }
+
     fun checkElectionIsSaved(election: Election) {
         viewModelScope.launch {
             _election.value = election
@@ -45,7 +49,10 @@ class VoterInfoViewModel(private val dataSource: ElectionDao, private val apiSer
     fun getVoterInformation(election: Election) {
         _apiStatus.value = CivicsApiStatus.LOADING
         viewModelScope.launch {
-            val address = if (election.division.state.isEmpty()) election.division.country else "${election.division.country} - ${election.division.state}"
+            val address = if (election.division.state.isEmpty())
+                               election.division.country
+                          else
+                              "${election.division.country} - ${election.division.state}"
             val response = apiService.getVoterInfoAsync(address, election.id)
             try {
                 val result = response.await()
@@ -55,11 +62,17 @@ class VoterInfoViewModel(private val dataSource: ElectionDao, private val apiSer
             } catch (e: Exception) {
                 e.localizedMessage?.let { Log.e("network error", it) }
                 _apiStatus.value = CivicsApiStatus.ERROR
+                _voterInfo.value = null
             }
         }
     }
 
-    fun saveElection() {
+    /**
+     * This function can either save or delete a election from local database
+     * If it is already in database, this function will delete it from database.
+     * If it is not in database, we will add it to database.
+     */
+    fun saveOrDeleteElection() {
         viewModelScope.launch {
             _isSaved.value?.let { isSaved ->
                 val election = election.value
@@ -82,6 +95,5 @@ class VoterInfoViewModel(private val dataSource: ElectionDao, private val apiSer
     fun intentUrlCompleted() {
         _url.value = null
     }
-
 
 }
