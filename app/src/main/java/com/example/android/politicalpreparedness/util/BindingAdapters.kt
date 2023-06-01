@@ -12,7 +12,7 @@ import java.util.*
 
 @BindingAdapter("civicsApiStatus")
 fun bindApiStatus(statusImageView: ImageView, status: CivicsApiStatus?) {
-    Log.d("binding debug", "$status")
+    Log.d("binding debug - civicsApiStatus", "$status")
     when (status) {
         CivicsApiStatus.LOADING -> {
             statusImageView.visibility = View.VISIBLE
@@ -30,7 +30,7 @@ fun bindApiStatus(statusImageView: ImageView, status: CivicsApiStatus?) {
 
 @BindingAdapter("fadeVisible")
 fun View.bindFadeVisible(visible: Boolean? = true) {
-    Log.d("binding debug", "$visible")
+    Log.d("binding debug - fadeVisible", "$visible")
     if (tag == null) {
         tag = true
         visibility = if (visible == true) View.VISIBLE else View.GONE

@@ -23,13 +23,16 @@
             <TextView
                 android:id="@+id/search_title"
                 style="@style/RepresentativeTitle"
+                android:text="@string/search_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/address_line_1"
                 style="@style/RepresentativeAddress"
+                android:autofillHints=""
                 android:hint="@string/address_line_1"
+                android:minHeight="48dp"
                 android:text="@{viewModel.address.line1}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/search_title" />
@@ -37,7 +40,9 @@
             <EditText
                 android:id="@+id/address_line_2"
                 style="@style/RepresentativeAddress"
+                android:autofillHints=""
                 android:hint="@string/address_line_2"
+                android:minHeight="48dp"
                 android:text="@{viewModel.address.line2}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/address_line_1" />
@@ -45,10 +50,12 @@
             <EditText
                 android:id="@+id/city"
                 style="@style/RepresentativeCity"
+                android:autofillHints=""
                 android:hint="@string/city"
+                android:minHeight="48dp"
                 android:text="@{viewModel.address.city}"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/state"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/address_line_2" />
 
             <Spinner
@@ -63,10 +70,12 @@
             <EditText
                 android:id="@+id/zip"
                 style="@style/RepresentativeZip"
+                android:autofillHints=""
                 android:hint="@string/zip"
+                android:minHeight="48dp"
                 android:text="@{viewModel.address.zip}"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/city"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/city" />
 
             <Button
@@ -90,7 +99,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/representative_list_container"
+            android:id="@+id/containerRepresentativeList"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -116,7 +125,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/representative_title" />
 
             <TextView
-                android:id="@+id/label_no_data"
+                android:id="@+id/textNoData"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -128,7 +137,7 @@
                 motion:layout_editor_absoluteX="16dp" />
 
             <ImageView
-                android:id="@+id/imageRepresentativeStatus"
+                android:id="@+id/iconLoadStatus"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:contentDescription="@string/showing_loading_status"

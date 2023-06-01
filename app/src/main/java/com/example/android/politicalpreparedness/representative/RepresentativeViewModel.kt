@@ -28,24 +28,27 @@ class RepresentativeViewModel: ViewModel() {
         get() = _address
 
     fun getRepresentativesByAddress() {
-        if (_address.value == null)
-            return
-
-        _apiStatus.value = CivicsApiStatus.LOADING
-        viewModelScope.launch {
-            try {
-                val (offices, officials) = apiService.getRepresentativesAsync(
-                    _address.value!!.toFormattedString())
+        Log.d("network debug - address", _address.value.toString())
+        if (_address.value != null) {
+            _apiStatus.value = CivicsApiStatus.LOADING
+            viewModelScope.launch {
+                try {
+                    val (offices, officials) = apiService.getRepresentativesAsync(
+                        _address.value!!.toFormattedString()
+                    )
                         .await()
-                Log.d("network debug - representatives", officials.toString())
-                _apiStatus.value = CivicsApiStatus.DONE
-                _representatives.value =
-                    offices.flatMap { office -> office.getRepresentatives(officials) }
-            } catch (e: Exception) {
-                e.localizedMessage?.let { Log.e("network error - representative", it) }
-                _apiStatus.value = CivicsApiStatus.ERROR
-                _representatives.value = emptyList()
+                    Log.d("network debug - representatives", officials.toString())
+                    _apiStatus.value = CivicsApiStatus.DONE
+                    _representatives.value =
+                        offices.flatMap { office -> office.getRepresentatives(officials) }
+                } catch (e: Exception) {
+                    e.localizedMessage?.let { Log.e("network error - representative", it) }
+                    _apiStatus.value = CivicsApiStatus.ERROR
+                    _representatives.value = emptyList()
+                }
             }
+        } else {
+            _representatives.value = emptyList()
         }
     }
 
