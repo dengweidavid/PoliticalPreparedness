@@ -52,6 +52,7 @@ class RepresentativeFragment : Fragment() {
         binding.buttonSearch.setOnClickListener {
             hideKeyboard()
             viewModel.getRepresentativesByAddress()
+            //binding.invalidateAll()
         }
 
         binding.buttonLocation.setOnClickListener {

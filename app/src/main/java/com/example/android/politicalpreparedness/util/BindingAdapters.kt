@@ -2,6 +2,7 @@ package com.example.android.politicalpreparedness.util
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
@@ -11,6 +12,7 @@ import java.util.*
 
 @BindingAdapter("civicsApiStatus")
 fun bindApiStatus(statusImageView: ImageView, status: CivicsApiStatus?) {
+    Log.d("binding debug", "$status")
     when (status) {
         CivicsApiStatus.LOADING -> {
             statusImageView.visibility = View.VISIBLE
@@ -28,6 +30,7 @@ fun bindApiStatus(statusImageView: ImageView, status: CivicsApiStatus?) {
 
 @BindingAdapter("fadeVisible")
 fun View.bindFadeVisible(visible: Boolean? = true) {
+    Log.d("binding debug", "$visible")
     if (tag == null) {
         tag = true
         visibility = if (visible == true) View.VISIBLE else View.GONE
