@@ -27,13 +27,14 @@
 
         <ImageView
             android:id="@+id/imageUpcomingElectionsStatus"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             app:civicsApiStatus="@{viewModel.apiStatus}"
             app:layout_constraintBottom_toBottomOf="@id/buttonSave"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/election_name" />
+            app:layout_constraintTop_toTopOf="@id/election_name"
+            android:contentDescription="@string/showing_loading_status" />
 
         <TextView
             android:id="@+id/election_date"

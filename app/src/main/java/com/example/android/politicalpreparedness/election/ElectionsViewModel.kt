@@ -35,7 +35,7 @@ class ElectionsViewModel(private val database: ElectionDao, private val apiServi
                 _apiStatus.value = CivicsApiStatus.DONE
                 _upComingElections.value = result.elections
             } catch (e: Exception) {
-                Log.e("network error", e.localizedMessage)
+                e.localizedMessage?.let { Log.e("network error", it) }
                 _apiStatus.value = CivicsApiStatus.ERROR
                 _upComingElections.value = ArrayList()
             }

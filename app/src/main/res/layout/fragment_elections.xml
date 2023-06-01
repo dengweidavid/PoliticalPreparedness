@@ -41,8 +41,9 @@
 
         <ImageView
             android:id="@+id/imageUpcomingElectionsStatus"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:contentDescription="@string/showing_loading_status"
             app:civicsApiStatus="@{viewModel.apiStatus}"
             app:layout_constraintBottom_toBottomOf="@id/recyclerUpcomingElections"
             app:layout_constraintEnd_toEndOf="parent"

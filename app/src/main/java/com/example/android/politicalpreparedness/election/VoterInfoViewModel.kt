@@ -53,7 +53,7 @@ class VoterInfoViewModel(private val dataSource: ElectionDao, private val apiSer
                 _apiStatus.value = CivicsApiStatus.DONE
                 _voterInfo.value = result
             } catch (e: Exception) {
-                Log.e("network error", e.localizedMessage)
+                e.localizedMessage?.let { Log.e("network error", it) }
                 _apiStatus.value = CivicsApiStatus.ERROR
             }
         }
