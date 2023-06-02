@@ -30,7 +30,6 @@ class RepresentativeFragment : Fragment() {
     companion object {
         private const val TAG = "RepresentativeFragment"
         private const val REQUEST_ACCESS_FINE_LOCATION = 1001
-        const val ADDRESS_KEY = "ADDRESS_KEY"
         const val MOTION_LAYOUT_STATE_KEY = "MOTION_LAYOUT_STATE_KEY"
     }
 
@@ -84,14 +83,9 @@ class RepresentativeFragment : Fragment() {
         Log.d(TAG, "onViewCreated is called")
 
         if (savedInstanceState != null) {
-            val address: Address? = savedInstanceState.getParcelable(ADDRESS_KEY)
-            Log.d(TAG, "Address: $address")
-            viewModel.setAddress(address)
-
             val motionLayoutState: Int = savedInstanceState.getInt(MOTION_LAYOUT_STATE_KEY)
             Log.d(TAG, "Motion Layout State: $motionLayoutState")
             viewModel.setMotionLayoutState(motionLayoutState)
-
         }
     }
 
@@ -99,8 +93,8 @@ class RepresentativeFragment : Fragment() {
         super.onSaveInstanceState(outState)
         Log.d(TAG, "onSaveInstanceState is called")
 
-        outState.putParcelable(ADDRESS_KEY, viewModel.address.value)
         outState.putInt(MOTION_LAYOUT_STATE_KEY, binding.motionLayout.currentState)
+        viewModel.saveState()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

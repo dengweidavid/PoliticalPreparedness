@@ -1,17 +1,19 @@
 package com.example.android.politicalpreparedness.representative
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.android.politicalpreparedness.network.CivicsApi
 import com.example.android.politicalpreparedness.network.CivicsApiStatus
 import com.example.android.politicalpreparedness.network.models.Address
 import com.example.android.politicalpreparedness.representative.model.Representative
 import kotlinx.coroutines.launch
 
-class RepresentativeViewModel: ViewModel() {
+class RepresentativeViewModel(private val savedState: SavedStateHandle): ViewModel() {
+
+    companion object {
+        const val ADDRESS_KEY = "ADDRESS_KEY"
+        const val REPRESENTATIVES_KEY = "REPRESENTATIVES_KEY"
+    }
 
     private val apiService = CivicsApi.retrofitService
 
@@ -32,8 +34,8 @@ class RepresentativeViewModel: ViewModel() {
         get() = _motionLayoutState
 
     init {
-        _address.value = Address("", null, "", "", "" )
-        _representatives.value = emptyList()
+        _address.value = savedState.get<Address>(ADDRESS_KEY)
+        _representatives.value = savedState.get<List<Representative>>(REPRESENTATIVES_KEY)
     }
 
     fun getRepresentativesByAddress() {
@@ -54,6 +56,11 @@ class RepresentativeViewModel: ViewModel() {
                 _representatives.value = emptyList()
             }
         }
+    }
+
+    fun saveState() {
+        savedState.set(ADDRESS_KEY, _address.value)
+        savedState.set(REPRESENTATIVES_KEY, _representatives.value)
     }
 
     fun setAddress(address: Address?) {
