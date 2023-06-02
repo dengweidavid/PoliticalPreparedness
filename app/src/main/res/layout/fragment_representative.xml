@@ -10,8 +10,9 @@
     </data>
 
     <androidx.constraintlayout.motion.widget.MotionLayout
-        android:layout_height="match_parent"
+        android:id="@+id/motionLayout"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:padding="@dimen/default_margin"
         app:layoutDescription="@xml/fragment_representative_scene">
 
@@ -62,11 +63,11 @@
                 android:id="@+id/state"
                 style="@style/RepresentativeState"
                 android:entries="@array/states"
-                app:stateValue="@={viewModel.address.state}"
-                app:layout_constraintStart_toEndOf="@id/city"
+                app:layout_constraintBottom_toBottomOf="@id/city"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/city"
                 app:layout_constraintTop_toTopOf="@id/city"
-                app:layout_constraintBottom_toBottomOf="@id/city"/>
+                app:stateValue="@={viewModel.address.state}" />
 
             <EditText
                 android:id="@+id/zip"
@@ -82,10 +83,10 @@
             <Button
                 android:id="@+id/button_search"
                 style="@style/Button"
-                android:layout_marginTop="@dimen/default_margin"
-                android:text="@string/find_my_representatives"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin"
+                android:text="@string/find_my_representatives"
                 app:layout_constraintTop_toBottomOf="@id/zip" />
 
             <Button
@@ -119,6 +120,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerRepresentatives"
                 style="@style/Empty"
+                android:saveEnabled="true"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

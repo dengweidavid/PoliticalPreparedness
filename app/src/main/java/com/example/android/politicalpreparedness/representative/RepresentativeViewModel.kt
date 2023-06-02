@@ -27,6 +27,10 @@ class RepresentativeViewModel: ViewModel() {
     val address: LiveData<Address>
         get() = _address
 
+    private val _motionLayoutState = MutableLiveData<Int>()
+    val motionLayoutState: LiveData<Int>
+        get() = _motionLayoutState
+
     init {
         _address.value = Address("", null, "", "", "" )
         _representatives.value = emptyList()
@@ -52,8 +56,12 @@ class RepresentativeViewModel: ViewModel() {
         }
     }
 
-    fun setAddress(address: Address) {
+    fun setAddress(address: Address?) {
         _address.value = address
+    }
+
+    fun setMotionLayoutState(state: Int?) {
+        _motionLayoutState.value = state
     }
 
 }

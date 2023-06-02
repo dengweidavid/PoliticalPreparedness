@@ -28,12 +28,17 @@ import java.util.Locale
 class RepresentativeFragment : Fragment() {
 
     companion object {
+        private const val TAG = "RepresentativeFragment"
         private const val REQUEST_ACCESS_FINE_LOCATION = 1001
+        const val ADDRESS_KEY = "ADDRESS_KEY"
+        const val MOTION_LAYOUT_STATE_KEY = "MOTION_LAYOUT_STATE_KEY"
     }
 
     private val viewModel: RepresentativeViewModel by lazy {
         ViewModelProvider(this).get(RepresentativeViewModel::class.java)
     }
+
+    lateinit var binding: FragmentRepresentativeBinding
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
@@ -41,7 +46,7 @@ class RepresentativeFragment : Fragment() {
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
 
-        val binding = FragmentRepresentativeBinding.inflate(layoutInflater)
+        binding = FragmentRepresentativeBinding.inflate(layoutInflater)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
@@ -49,6 +54,10 @@ class RepresentativeFragment : Fragment() {
         binding.recyclerRepresentatives.adapter = adapter
         viewModel.representatives.observe(viewLifecycleOwner) {
             adapter.submitList(it)
+        }
+
+        viewModel.motionLayoutState.observe(viewLifecycleOwner) {
+            binding.motionLayout.transitionToState(it)
         }
 
         binding.buttonSearch.setOnClickListener {
@@ -68,6 +77,30 @@ class RepresentativeFragment : Fragment() {
 
         binding.executePendingBindings()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Log.d(TAG, "onViewCreated is called")
+
+        if (savedInstanceState != null) {
+            val address: Address? = savedInstanceState.getParcelable(ADDRESS_KEY)
+            Log.d(TAG, "Address: $address")
+            viewModel.setAddress(address)
+
+            val motionLayoutState: Int = savedInstanceState.getInt(MOTION_LAYOUT_STATE_KEY)
+            Log.d(TAG, "Motion Layout State: $motionLayoutState")
+            viewModel.setMotionLayoutState(motionLayoutState)
+
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Log.d(TAG, "onSaveInstanceState is called")
+
+        outState.putParcelable(ADDRESS_KEY, viewModel.address.value)
+        outState.putInt(MOTION_LAYOUT_STATE_KEY, binding.motionLayout.currentState)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
