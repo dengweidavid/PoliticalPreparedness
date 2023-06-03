@@ -61,11 +61,14 @@ class RepresentativeFragment : Fragment() {
 
         binding.buttonSearch.setOnClickListener {
             hideKeyboard()
+            clearEditFocus()
             viewModel.getRepresentativesByAddress()
         }
 
         binding.buttonLocation.setOnClickListener {
             hideKeyboard()
+            clearEditFocus()
+            binding.buttonLocation.requestFocus()
             if (checkLocationPermissions()) {
                 getLocation()
                 viewModel.getRepresentativesByAddress()
@@ -88,8 +91,6 @@ class RepresentativeFragment : Fragment() {
             viewModel.setMotionLayoutState(motionLayoutState)
             viewModel.getState()
         }
-
-        hideKeyboard()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -145,6 +146,13 @@ class RepresentativeFragment : Fragment() {
                     Address(address.thoroughfare, address.subThoroughfare, address.locality, address.adminArea, address.postalCode)
                 }
                 .first()
+    }
+
+    private fun clearEditFocus() {
+        binding.addressLine1.clearFocus()
+        binding.addressLine2.clearFocus()
+        binding.city.clearFocus()
+        binding.zip.clearFocus()
     }
 
     private fun hideKeyboard() {
