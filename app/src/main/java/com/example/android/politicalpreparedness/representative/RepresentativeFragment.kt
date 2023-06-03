@@ -86,6 +86,7 @@ class RepresentativeFragment : Fragment() {
             val motionLayoutState: Int = savedInstanceState.getInt(MOTION_LAYOUT_STATE_KEY)
             Log.d(TAG, "Motion Layout State: $motionLayoutState")
             viewModel.setMotionLayoutState(motionLayoutState)
+            viewModel.getState()
         }
     }
 

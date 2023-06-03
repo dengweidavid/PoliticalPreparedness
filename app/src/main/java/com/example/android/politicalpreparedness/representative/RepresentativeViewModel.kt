@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 class RepresentativeViewModel(private val savedState: SavedStateHandle): ViewModel() {
 
     companion object {
+        const val TAG = "RepresentativeViewModel"
         const val ADDRESS_KEY = "ADDRESS_KEY"
         const val REPRESENTATIVES_KEY = "REPRESENTATIVES_KEY"
     }
@@ -34,11 +35,13 @@ class RepresentativeViewModel(private val savedState: SavedStateHandle): ViewMod
         get() = _motionLayoutState
 
     init {
-        _address.value = savedState.get<Address>(ADDRESS_KEY)
-        _representatives.value = savedState.get<List<Representative>>(REPRESENTATIVES_KEY)
+        _address.value = Address("", null, "", "", "" )
+        _representatives.value = emptyList()
     }
 
     fun getRepresentativesByAddress() {
+        Log.d(TAG, "getRepresentativesByAddress is called and address is ${_address.value}")
+
         _apiStatus.value = CivicsApiStatus.LOADING
         viewModelScope.launch {
             try {
@@ -56,6 +59,11 @@ class RepresentativeViewModel(private val savedState: SavedStateHandle): ViewMod
                 _representatives.value = emptyList()
             }
         }
+    }
+
+    fun getState() {
+        _address.value = savedState.get<Address>(ADDRESS_KEY)
+        _representatives.value = savedState.get<List<Representative>>(REPRESENTATIVES_KEY)
     }
 
     fun saveState() {
