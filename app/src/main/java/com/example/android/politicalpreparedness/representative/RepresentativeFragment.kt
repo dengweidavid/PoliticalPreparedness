@@ -88,6 +88,8 @@ class RepresentativeFragment : Fragment() {
             viewModel.setMotionLayoutState(motionLayoutState)
             viewModel.getState()
         }
+
+        hideKeyboard()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
